@@ -37,9 +37,12 @@ echo -e "
 www.tiktok.com	FALSE	/	FALSE	0	s_v_web_id	verify_kiagygei_J4Frui45_RF6k_4r3t_AOr3_ju5FsZ6gWnNv
 " >> .t_cookie.txt
 
+#use brew curl instead of system curl
+CURL='/usr/local/opt/curl/bin/curl --socks5-hostname localhost:9050'
+
 # option 1 for download method
-title=`curl --cookie $pwd/.t_cookie.txt -s -k --url https://www.tiktok.com/node/share/video/$c/$b --referer $GET --user-agent 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36' --connect-timeout 90 | grep '#' | tr '{' '\n' | head | grep 'title\"\:' | cut -d '"' -f4`
-down=`curl --cookie $pwd/.t_cookie.txt -s -k --url https://www.tiktok.com/node/share/video/$c/$b --referer $GET --user-agent 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36' --connect-timeout 90 | tr '"' '\n' | grep -i -E 'video_mp4' | tail -n 1`
+title=`$CURL --cookie $pwd/.t_cookie.txt -s -k --url https://www.tiktok.com/node/share/video/$c/$b --referer $GET --user-agent 'Mozilla/5.0 (Windows NT 6.1; rv:52.0) Gecko/20100101 Firefox/52.0' --connect-timeout 90 | grep '#' | tr '{' '\n' | head | grep 'title\"\:' | cut -d '"' -f4`
+down=`$CURL --cookie $pwd/.t_cookie.txt -s -k --url https://www.tiktok.com/node/share/video/$c/$b --referer $GET --user-agent 'Mozilla/5.0 (Windows NT 6.1; rv:52.0) Gecko/20100101 Firefox/52.0' --connect-timeout 90 | tr '"' '\n' | grep -i -E 'video_mp4' | tail -n 1`
 
 # option 2 for download method
 #down=`curl --cookie .t_cookie.txt -s -k --url $GET --user-agent 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36' --connect-timeout 90 | tr '"' '\n' | grep -i -E 'video/[a-z]'\|'.mp4' | tail -n 1`
@@ -53,7 +56,8 @@ down=`curl --cookie $pwd/.t_cookie.txt -s -k --url https://www.tiktok.com/node/s
 
 #c=$(echo $1 | cut -d '@' -f 2 | cut -d '/' -f 1)
 echo -e "\n${YELLOW}video title/caption :${BOLD}${GREEN} ${title} ${STAND}"
-wget --load-cookies $pwd/.t_cookie.txt --quiet --referer=$GET --user-agent 'Opera/9.80 (Android 4.1.2; Linux; Opera Mobi/ADR-1305251841) Presto/2.11.355 Version/12.10' --show-progress -c $down -O $c-$b.mp4
+wget --load-cookies $pwd/.t_cookie.txt --quiet --referer=$GET --user-agent 'Mozilla/5.0 (Windows NT 6.1; rv:52.0) Gecko/20100101 Firefox/52.0' --show-progress -c $down -O $c-$b.mp4
 echo -e "\nvideo : ${c}-${b}.mp4\ntitle/caption : ${title}" >> ${c}-title.txt
 
 #wget --user-agent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36' --show-progress -c $down -O $c-$b.mp4
+sudo killall -HUP tor
