@@ -15,4 +15,5 @@ Browser recommend : Chrome, Opera (Not work with Firefox). In input name, put ta
 ### MY MODIFICATIONS:
 -this version has been modified to use the curl that Homebrew installs, not the default system curl<br>
 -requests are routed through tor to avoid beeing shutdown by tiktok server<br>
--tor ip is reseted at the end of each video to avoid beeing detected
+-tor ip is reseted at the end of each video to avoid beeing detected<br>
+-this modified script allowed me to download 1200 videos in less than 2h.
